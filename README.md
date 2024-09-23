@@ -23,9 +23,9 @@
       <a href="https://github.com/JBK501">정보규(AA)</a>
     </td>
      <td width="130px">
-      <a href="https://github.com/hoon930115"><img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/70844171?v=4"></a>
+      <a href="https://github.com/jeoksun"><img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/166106570?v=4"></a>
       <br>
-      <a href="https://github.com/hoon930115">추석준(TA)</a>
+      <a href="https://github.com/jeoksun">추석준(TA)</a>
     </td>
     <td width="130px">
       <a href="https://github.com/hyewon822"><img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/86226624?v=4"></a>

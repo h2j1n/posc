@@ -1,0 +1,125 @@
+/* ad 상세보기 css */
+.detailboard {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.h1title {
+    text-align: center;
+}
+
+.write_button {
+    text-align: right; 
+    margin-bottom: 20px; 
+}
+
+.h4title {
+    text-align: left; 
+}
+
+.h4title h4 {
+    margin: 0;
+}
+
+.post_meta h5 {
+    margin: 0;
+}
+.white_box2 {
+    background-color: #fff;
+    padding: 40px 60px;
+    width: calc(55% - 50px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: scroll;
+}
+
+
+/* 스크롤바 숨기기 */
+.white_box2::-webkit-scrollbar {
+    width: 0;  
+    height: 0; 
+}
+
+.white_box2 {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;    
+}
+
+
+.post_info {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post_user {
+    margin-left: auto; 
+}
+
+.post_meta {
+    display: flex; 
+    align-items: center; 
+}
+
+.post_date {
+    margin-top: 10px; 
+    text-align: right;
+    width: 100%;
+}
+
+.post_content {
+    width: 98%;
+    text-align: left;
+    padding: 0 20px;
+    margin-top: 20px;
+    margin-bottom: 40px; 
+}
+
+.file_down {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 10px;
+    cursor: pointer;
+    width: 45%;
+    height: 70px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.file_down img {
+    width: 20px;
+}
+
+.file_down span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file_down a {
+    text-decoration: none;
+    color: inherit;
+}

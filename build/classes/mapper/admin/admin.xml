@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="admin">
+
+
+
+<select id="Login" parameterType="map" resultType="int">
+
+SELECT COALESCE((SELECT adm_no
+                 FROM admin
+                 WHERE adm_id = #{adminId}
+                 AND adm_pw = #{adminPw}), 0) AS adm_no
+FROM dual
+
+</select>
+
+<select id="LoginId" parameterType="map" resultType="String">
+
+select ADM_ID
+FROM ADMIN
+where ADM_ID = #{adminId}
+and ADM_PW = #{adminPw}
+
+</select>
+
+<select id="getUser" resultType="memVO">
+
+select *
+from user_ 
+where user_delyn= 'N'
+
+</select>
+
+<select id="getBlackUser" resultType="memVO">
+
+select *
+from user_ 
+where user_delyn= 'Y'
+ORDER BY user_no DESC
+
+</select>
+
+<select id="selectUser" parameterType="int" resultType="memVO">
+
+select *
+from user_
+where user_no = #{user_no}
+and user_delyn = 'N'
+ORDER BY user_no DESC
+
+</select>
+
+<select id="selectIT" parameterType="int" resultType="ItVos">
+
+select *
+from LOU_IT
+where it_no = #{it_no}
+and it_delyn = 'N'
+ORDER BY it_no DESC
+
+</select>
+
+<update id="removeUser" parameterType="memVO">
+
+update user_
+set 
+user_delyn = 'Y'
+where user_no = #{user_no}
+
+</update>
+
+<update id="removeIT" parameterType="ItVos">
+
+update LOU_IT
+set 
+it_delyn = 'Y'
+where it_no = #{it_no}
+
+</update>
+
+<update id="confirmIT" parameterType="int" >
+	
+update lou_it 
+set it_permit = 'Y'
+where it_no = #{it_no}
+	
+</update>
+
+<select id="searchUser" parameterType="map" resultType="memVO">
+
+SELECT *
+FROM user_
+WHERE user_delyn = 'N' 
+AND (user_no LIKE '%' || #{keyword} || '%' OR user_id LIKE '%' || #{keyword} || '%')
+ORDER BY user_no DESC
+
+</select>
+
+<select id="getITBoard" resultType="ItVos">
+
+select *
+from lou_it
+where it_delyn = 'N'
+
+</select>
+
+<select id="getITBoard_N" resultType="ItVos">
+
+select *
+from lou_it
+where it_delyn = 'N'
+and it_permit = 'N'
+
+</select>
+
+<select id="getITBoard_Y" resultType="ItVos">
+
+select *
+from lou_it
+where it_delyn = 'N'
+and it_permit = 'Y'
+
+</select>
+
+
+</mapper>

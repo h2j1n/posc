@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="apply">
+
+	<resultMap type="ApplyVO" id="applyListMap"> <!-- 1 -->
+		<result column="ap_no" property="ap_no" />
+		<result column="ap_date" property="ap_date" />
+		<result column="std_no" property="std_no" />
+		<result column="user_no" property="user_no" />
+		<result column="gsu_no" property="gsu_no" />
+		
+		<result column="user_name" property="user_name" />
+		<result column="user_tel" property="user_tel" />
+		<result column="user_id" property="user_id" />
+		<result column="user_grade" property="user_grade" />
+		<result column="user_fav" property="user_fav" />
+		<result column="user_rep_cnt" property="user_rep_cnt" />
+		<result column="user_email" property="user_email" />
+	</resultMap>
+
+	<select id="applyList" parameterType="int" resultType="ApplyVO">
+		<![CDATA[
+		SELECT DISTINCT user_.user_id, apply.ap_no, apply.ap_date, user_.user_no, apply.gsu_no, apply.std_no,  user_.user_name, user_.user_tel, user_.user_grade, user_.user_fav, user_.user_rep_cnt, user_.user_delyn, user_.user_email, user_.user_add1, user_.user_add2
+		FROM apply 
+		INNER JOIN user_ ON apply.USER_NO = user_.USER_NO
+		WHERE apply.std_no = #{std_no}
+		ORDER BY apply.ap_date desc
+		]]>
+			
+	</select>
+
+	<select id="applyStudyList" parameterType="map" resultType="ApplyVO">
+		select *
+		from apply
+			where gsu_no = #{gsu_no} 
+    			and std_no  = #{std_no}
+	</select>
+
+	<!-- gsu_no가져오기 -->
+	<select id="getGsuNo" parameterType="String" resultType="String">
+		select gsu_no
+		from apply
+			where ap_no = #{ap_no} 
+	</select>
+	
+	<delete id="deleteStudyMem" parameterType="String">
+		delete from apply
+		where ap_no = #{ap_no} 
+	</delete>
+
+
+
+</mapper>

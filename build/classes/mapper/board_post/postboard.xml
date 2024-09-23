@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="postboard">
+
+
+
+<resultMap type="board_post.vo.PostBoardVO" id="PostBoardVO">
+
+	<id column= "post_no" property="post_no"/>
+	<result column="POST_NO" property="post_no"/>
+	<result column="POST_TITLE" property="post_title"/>
+    <result column="POST_CONTENT" property="post_content" jdbcType="CLOB" javaType="java.lang.String"/>
+	<result column="ATCH_FILE_ID" property="atch_file_id"/>
+	<result column="POST_DATE" property="post_date"/>
+	<result column="POST_HIT" property="post_hit"/>
+	
+    
+</resultMap>
+
+	<select id="postboardList" resultType="PostBoardVO">
+		select
+			post_no, post_title, atch_file_id, post_date, post_hit
+		from lou_post
+		where post_delyn = 'N'
+		order by post_no desc
+	</select>
+	
+	
+	
+	<select id="selectBoard" parameterType="int" resultType="PostBoardVO">
+
+	select post_no, post_title, post_content, post_hit, post_date
+	from lou_post
+	where post_no = #{post_no}
+	
+	</select>
+	
+	
+	<update id="hitupdate" parameterType="int" >
+		update lou_post 
+		set post_hit = post_hit+1
+		where post_no = #{post_no}
+		
+	</update>
+	
+	
+	<update id="deletePostBoard" parameterType="int" >
+		update lou_post 
+		set post_delYN = 'Y'
+		where post_no = #{post_no}
+		
+	</update>
+	
+	
+	<insert id="insertPostBoard" parameterType="PostBoardVO" useGeneratedKeys="true">
+		<selectKey keyProperty="post_no" resultType="int" order="BEFORE">
+			select post_no_seq.nextval from dual
+		</selectKey>
+		insert into lou_post(
+			post_no, post_title, post_content, adm_no, post_date, post_hit, post_delyn
+		) values(
+			#{post_no}, #{post_title}, #{post_content}, #{adm_no}, sysdate, 0, 'N'
+		)
+		
+	</insert>
+	
+	<update id="updateBoard" parameterType="PostBoardVO">
+		
+		update lou_post 
+		set post_title = #{post_title}, 
+		post_content = #{post_content} 
+		where post_no = #{post_no}
+		
+	</update>
+	
+	
+	 
+	 <!-- 게시글에 대한 댓글 목록 조회 -->
+    <select id="getCommentsByPostNo" parameterType="int" resultType="StcoVO">
+        <![CDATA[
+		SELECT CP.stco_cont, 
+		       CP.stco_date, 
+		       CP.post_no, 
+		       CP.user_no, 
+		       CP.stco_no,
+		       U.USER_ID
+		FROM comm_post CP
+		LEFT JOIN USER_ U ON U.USER_NO = CP.user_no
+		WHERE CP.post_no = #{postNo} AND CP.stco_delyn = 'N'
+		ORDER BY CP.stco_no ASC
+		]]>
+		 
+		 
+    </select>
+    
+    
+    <!-- 댓글 삽입 -->
+    <insert id="insertComment" parameterType="StcoVO" useGeneratedKeys="true">
+    <selectKey keyProperty="stco_no" resultType="int" order="BEFORE">
+			select stco_no_seq.nextval from dual
+		</selectKey>
+        INSERT INTO comm_post (stco_no, stco_cont, stco_depth, stco_date, stco_wrap, stco_delyn, post_no, user_no)
+        VALUES (#{stco_no}, #{stco_cont}, 1, sysdate, 'N', 'N', #{post_no}, #{user_no})
+    </insert>
+    
+    
+	<!-- 댓글 삭제 -->
+	<update id="deleteComment" parameterType="int" >
+		update comm_post 
+		set stco_delyn = 'Y'
+		where stco_no = #{stco_no}
+		
+	</update>
+	
+	
+	<!-- 댓글 select -->
+	<select id="selectcomment" parameterType="int" resultType="StcoVO">
+
+	select stco_no, stco_cont, stco_delyn, stco_date, post_no, user_no
+	from comm_post
+	where stco_no = #{stco_no}
+	
+	</select>
+	
+	
+	<!-- 댓글 업데이트 -->
+	<update id="updateComment" parameterType="StcoVO">
+		
+		update comm_post 
+		set stco_cont = #{stco_cont}
+		where stco_no = #{stco_no}
+		
+	</update>
+	
+	
+	
+	
+<!-- 	페이지네이션 -->
+	
+	<!-- 전체 게시글 수 조회 -->
+    <select id="getTotalPosts" resultType="int">
+        SELECT COUNT(*) FROM lou_post WHERE post_delyn = 'N'
+    </select>
+
+    
+    
+    <!-- 페이지에 해당하는 게시글 목록 조회 -->
+    <select id="getPostboardListByPage" parameterType="map" resultType="PostBoardVO">
+        <![CDATA[
+        SELECT
+            *
+        FROM (
+            SELECT
+                ROWNUM AS RNUM, A.*
+            FROM (
+                SELECT
+                    post_no, post_title, atch_file_id, post_date, post_hit
+                FROM
+                    lou_post
+                WHERE
+                    post_delyn = 'N'
+                ORDER BY
+                    post_no DESC
+            ) A
+            WHERE
+                ROWNUM <= #{start} + #{pageSize}
+        )
+        WHERE
+            RNUM > #{start}
+        ]]>
+    </select>
+	
+	
+	
+	<select id="searchBoard" parameterType="map" resultType="PostBoardVO">
+    SELECT post_no, post_title, atch_file_id, post_date, post_hit
+    FROM lou_post
+    WHERE post_delyn = 'N' AND (post_title LIKE '%' || #{keyword} || '%' OR post_content LIKE '%' || #{keyword} || '%')
+    ORDER BY post_no DESC
+</select>
+
+
+	
+	
+	
+</mapper>

@@ -1,0 +1,250 @@
+@charset "UTF-8";
+
+.skill__item {
+  display: inline-block;
+}
+
+/*일정추가 모달 css */
+.modal {
+  /*팝업 배경*/
+  display: none; /*평소에는 보이지 않도록*/
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+/*   background: rgba(0, 0, 0, 0.5); */
+}
+.modal .modal_popup {
+  /*팝업*/
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 20px;
+  border : 1px solid silver;
+}
+.modal .modal_popup .add_btn {
+  /* display: block; */
+  padding: 10px 20px;
+  background-color: #8fdf82;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.modal .modal_popup .close_btn {
+  /* display: block; */
+  padding: 10px 20px;
+  background-color: #8fdf82;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.modal.on {
+  display: block;
+}
+
+/*일정상세 모달 */
+.detail_modal {
+  /*팝업 배경*/
+  display: none; /*평소에는 보이지 않도록*/
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+/*   background: rgba(0, 0, 0, 0.5); */
+}
+.detail_modal .dtModal_popup {
+  /*팝업*/
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 20px;
+  border : 1px solid silver;
+}
+.detail_modal .dtModal_popup .dtUpdate_btn {
+  /* display: block; */
+  padding: 10px 20px;
+  background-color: #8fdf82;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.detail_modal .dtModal_popup .dtDelete_btn {
+  /* display: block; */
+  padding: 10px 20px;
+  background-color: #8fdf82;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.detail_modal .dtModal_popup .dtClose_btn {
+  /* display: block; */
+  padding: 10px 20px;
+  background-color: #8fdf82;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.detail_modal.on {
+  display: block;
+}
+
+.dtScdTb tbody tr:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+/*일정수정 모달 */
+.update_modal {
+  /*팝업 배경*/
+  display: none; /*평소에는 보이지 않도록*/
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+/*   background: rgba(0, 0, 0, 0.5); */
+}
+.update_modal .upModal_popup {
+  /*팝업*/
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 20px;
+  border : 1px solid silver;
+}
+.update_modal .upModal_popup .update_btn {
+  /* display: block; */
+  padding: 10px 20px;
+  background-color: #8fdf82;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.update_modal .upModal_popup .upClose_btn {
+  /* display: block; */
+  padding: 10px 20px;
+  background-color: #8fdf82;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.update_modal.on {
+  display: block;
+}
+
+#header_mg {
+  margin-top: 100px;
+}
+
+#mypage_cont {
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+}
+
+#home__defaultInfo {
+  padding: 10px 90px;
+}
+
+.home__name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+}
+
+.home__chat {
+  background-color: #ffbc3a;
+  border-color: transparent;
+  border-radius: 45%;
+}
+
+#menu {
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.menu__item {
+  font-size: 1.3rem;
+  color: black;
+  padding-right: 10px;
+}
+
+#skill {
+  margin-top: 20px;
+}
+
+.skill__title {
+  font-size: 1.1rem;
+  color: black;
+}
+
+.skill__list {
+  display: flex;
+  gap: 10px;
+}
+
+.skill__name {
+  padding: 3px 15px;
+  color: black;
+  border: 1px solid silver;
+  border-radius: 45%;
+}
+
+#calender_container {
+  padding: 10px 60px 60px 60px;
+  display: flex;
+  justify-content: center;
+}
+
+#calender_container #calendar {
+  width: 60vw;
+}
+
+
+.scAdd_btn{
+	margin: 0px 0px 0px 75%;	
+	border-radius: 10%;
+	width:100px;
+	height: 30px;
+	color: black;
+	border-radius: 10%;
+	border-color : transparent;
+	background-color: #8fdf82;
+}
+
+.scAdd_btn:hover{
+	color: #8fdf82;
+	border-color : #8fdf82;
+	background-color : transparent;
+}
+
+

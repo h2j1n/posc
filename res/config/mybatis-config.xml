@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+<properties resource="db.properties"/>
+
+<settings>
+   <!-- 
+   데이터 등록 시 해당 속성값이 존재하지 않으면 '부족합한 열 유형 : 1111 예외 발생함.
+   이 경우 해당 jdbcType을 명시적으로 알려주거나 아래와 같이 NULL에 대해 특정 값으로 설정 가능함.
+    -->
+   <setting name="jdbcTypeForNull" value="NULL"/>
+</settings>
+
+<typeAliases>
+
+   <typeAlias type="vo.MemberVO" alias="memVO"/>
+   <typeAlias type= "mypage.vo.ScheduleVO" alias="schduleVO"/>
+   <typeAlias type= "mypage.vo.UserStudyInfo" alias="userStudyInfoVO"/>
+   <typeAlias type= "mypage.vo.UserStudyProInfo" alias="userStudyProInfoVO"/>
+   <typeAlias type= "mypage.vo.PortfolioVO" alias="portVO"/>
+   <typeAlias type= "vo.LouFreeBoardVO" alias="LouFreeVO"/>
+   <typeAlias type= "chatting.vo.ChattingDetailVO" alias="ChatDetailVO"/>
+   <typeAlias type= "chatting.vo.ChattingVO" alias="ChatVO"/>
+   <typeAlias type= "main.vo.MainHotVO" alias="mhVO"/>
+   <typeAlias type= "main.vo.MainNewVO" alias="mnVO"/>
+   <typeAlias type= "vo.AdminVO" alias="adminVO"/>
+   <typeAlias type= "board_it.vo.ItBoardVO" alias="itVO"/>
+   
+   
+   <typeAlias type= "board_post.vo.PostBoardVO" alias="PostBoardVO"/>
+   <typeAlias type= "board_post.vo.StcoVO" alias="StcoVO"/>
+   <typeAlias type= "ad.vo.AdVO" alias="AdVO"/>
+
+   <typeAlias type= "board_free.vo.FrcoVO" alias="FrcoVO"/>
+
+   <typeAlias type= "get_study_user.vo.SkillVO" alias="skillsVO"/>
+   <typeAlias type= "get_study_user.vo.GetStudyUserVO" alias="GetStudyUserVO"/>
+   <typeAlias type= "get_study_user.vo.GetStudyListVO" alias="GetStudyListVO"/>
+   <typeAlias type= "get_study_user.vo.StudyMemberVO" alias="StudyMemberVO"/>
+   <typeAlias type= "get_study_user.vo.ApplyVO" alias="ApplyVO"/>
+   <typeAlias type= "board_it.vo.ItVo" alias="ItVos"/>
+   <typeAlias type= "user.vo.SkillsVO" alias="SkVO"/>
+   
+   <typeAlias type= "study.vo.StudyLeaderVO" alias="stdLeaderVO"/>
+   <typeAlias type= "study.vo.StudyVO" alias="stdVO"/>
+    
+   <typeAlias type= "get_study_user.vo.ProcessVO" alias="ProcessVO"/>
+
+
+</typeAliases>
+
+
+    <environments default="dev">
+      <environment id="dev">
+         <transactionManager type="JDBC"/>
+         <dataSource type="POOLED">
+<!--             <property name="driver" value="oracle.jdbc.driver.OracleDriver"/> -->
+            <property name="driver" value="${driver}"/>
+            <property name="url" value="${url}"/>
+            <property name="username" value="${username}"/>
+            <property name="password" value="${password}"/>
+            <property name="poolMaximumActiveConnections" value="2"/><!-- 활성화된 최대 커넥션 수 -->
+            <property name="poolMaximumIdleConnections" value="2"/><!-- 유휴상태에서 최대 커넥션 수 -->
+         </dataSource>
+      </environment>
+    </environments>
+        
+     <mappers>
+        <mapper resource="mapper/Member.xml"/>
+        <mapper resource="mapper/mypage/skill.xml"/>
+        <mapper resource="mapper/mypage/schedule.xml"/>
+        <mapper resource="mapper/mypage/userStudyInfo.xml"/>
+        <mapper resource="mapper/mypage/portfolio.xml"/>
+        <mapper resource="mapper/mypage/userWriting.xml"/>
+        <mapper resource="mapper/Loufree.xml"/>
+        <mapper resource="mapper/chatting/chat.xml"/>
+        <mapper resource="mapper/main/mainHot.xml"/>
+        <mapper resource="mapper/main/mainNew.xml"/>
+        <mapper resource="mapper/admin/admin.xml"/>
+        <mapper resource="mapper/board_post/postboard.xml"/>
+        <mapper resource="mapper/ad/ad.xml"/>
+        
+     
+        <mapper resource="mapper/board_get_std_user/skills.xml"/>
+        <mapper resource="mapper/board_get_std_user/getStudy.xml"/>
+        <mapper resource="mapper/board_get_std_user/apply.xml"/>
+        <mapper resource="mapper/board_it/ItBoard.xml"/>
+        <mapper resource="mapper/study/study.xml"/>
+   
+        <mapper resource="mapper/board_get_std_user/process.xml"/>
+        
+     </mappers>   
+ 
+ 
+</configuration>

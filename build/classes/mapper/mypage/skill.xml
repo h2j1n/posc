@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="skill">
+
+	<select id="selectSkillList" parameterType="int" resultType="String">
+		select sgdt_name
+		from sgbn_detail
+		where sgdt_no in (select sgdt_no 
+		from stack_code
+		where user_no = #{no})
+	</select>
+	
+	<select id="selectUpSkillList" parameterType="int" resultType="mypage.vo.ToUpdateSkillVO">
+		select stcd_no, a.user_no, b.sgdt_name
+		from stack_code a, sgbn_detail b
+		where user_no = #{user_no} and a.sgdt_no = b.sgdt_no
+	</select>
+	
+	<delete id="deleteSkill" parameterType="mypage.vo.ToUpdateSkillVO">
+		delete from stack_code
+		where user_no = #{user_no} and sgdt_no = (select sgdt_no
+                                         		  from sgbn_detail
+                                         		  where sgdt_name = #{sgdt_name})
+	</delete>
+	
+	<insert id="insertSkill" parameterType="mypage.vo.ToUpdateSkillVO">
+		insert into stack_code(stcd_no,user_no,sgdt_no)
+		values(stco_no_seq.nextval,#{user_no}, (select sgdt_no
+                                       			from sgbn_detail
+                                       			where sgdt_name = #{sgdt_name}))
+	</insert>
+	
+
+</mapper>

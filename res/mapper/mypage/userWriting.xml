@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userWriting">
+
+	<select id="selectItBoardList" parameterType="int" resultType="board_it.vo.ItBoardVO">
+		select it_no, it_title, it_content, it_date, it_hit, it_delyn, user_no, it_permit
+		from lou_it
+		where user_no = #{user_no} and it_delyn = 'N'
+	</select>
+	
+	<select id="selectFreeBoardList" parameterType="int" resultType="vo.LouFreeBoardVO">
+		select free_no, free_title, free_content, free_date, free_hit, free_delyn, user_no
+		from lou_free
+		where user_no = #{user_no} and free_delyn = 'N'
+	</select>
+	
+	<select id="selectStudyUserList" parameterType="int" resultType="GetStudyUserVO">
+		select gsu_no, gsu_title, gsu_content, gsu_start, gsu_hit, gsu_delyn, user_no, gsu_gubun, gsu_end, gsu_skills, gsu_memcnt, gsu_period, gsu_stdname
+		from get_std_u
+		where user_no = #{user_no} and gsu_delyn = 'N'
+	</select>
+
+</mapper>

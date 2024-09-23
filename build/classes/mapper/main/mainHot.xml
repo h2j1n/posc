@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mainGetHot">
+
+
+<resultMap type="main.vo.MainHotVO" id="GSU_NO">
+
+	<id column= "GSU_NO" property="gsu_no"/>
+	<result column="GSU_TITLE" property="gsu_title"/>
+    <result column="GSU_CONTENT" property="gsu_content" jdbcType="CLOB" javaType="java.lang.String"/>
+	<result column="GSU_START" property="gsu_start"/>
+	<result column="GSU_END" property="gsu_end"/>
+	<result column="GSU_HIT" property="gsu_hit"/>
+	<result column="GSU_GUBUN" property="gsu_gubun"/>
+	<result column="USER_NO" property="user_no"/>
+    
+</resultMap>
+
+
+
+<select id="getHotList" resultType="mhVO">
+	<![CDATA[
+    SELECT GSU_NO, GSU_TITLE, GSU_CONTENT, GSU_START, GSU_END AS GSU_END, GSU_HIT, GSU_GUBUN, USER_NO, USER_ID
+    FROM (
+        SELECT G.GSU_NO, G.GSU_TITLE, G.GSU_CONTENT, G.GSU_START, G.GSU_END, G.GSU_HIT, G.GSU_GUBUN, G.USER_NO, U.USER_ID
+        FROM GET_STD_U G, USER_ U
+        WHERE G.USER_NO = U.USER_NO
+        AND G.GSU_DELYN = 'N'
+        ORDER BY G.GSU_HIT ASC, G.GSU_START ASC
+    )
+    WHERE ROWNUM <= 6
+    ]]>
+</select>
+
+</mapper>

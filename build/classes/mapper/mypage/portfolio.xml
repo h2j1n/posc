@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="portfolio">
+
+<select id="selectPort" parameterType="int" resultType="portVO">
+select port_no, port_title, port_content, port_date, port_hit
+from lou_port
+where user_no = #{user_no} and port_delyn='N'
+</select>
+
+
+<insert id="insertPort" parameterType="portVO">
+insert into lou_port(port_no,port_title,port_content,user_no)
+values(port_seq.nextval,#{port_title},#{port_content},#{user_no})
+</insert>
+
+	
+<select id="selectPortDetail" parameterType="int" resultType="portVO">
+select port_no, port_title, port_content, port_date, port_hit
+from lou_port
+where port_no = #{port_no}
+</select>
+
+<update id="updatePort">
+update lou_port
+set port_title = #{port_title}, port_content = #{port_content}
+where port_no = #{port_no}
+</update>
+
+<update id="removePort" parameterType="portVO">
+update lou_port
+set port_delyn = #{port_delyn}
+where port_no = #{port_no}
+</update>
+
+</mapper>

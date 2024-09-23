@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userStudyinfo">
+
+	<select id="selectUserStudyInfo" parameterType="int" resultType="userStudyInfoVO">
+		select a.std_no as std_no, b.std_name as std_name, b.std_strdt as std_strdt, b.std_enddt as std_enddt, b.sgbn_name as sgbn_name, b.sgdt_name as sgdt_name, d.user_no as user_no, d.user_id as user_id, b.user_no as leader_no, c.user_id as leader_id
+		from std_member a, std_default b, user_ c, user_ d
+		where a.std_no = b.std_no and b.user_no = c.user_no and a.user_no = #{user_no} and a.user_no = d.user_no
+	</select>
+	
+	<select id="selectUserStudyPro" parameterType="int" resultType="userStudyProInfoVO">
+		select a.std_no, a.ap_date, b.pro_date, b.pro_res, c.user_id, d.user_no, d.std_name, d.sgbn_name, d.sgdt_name, d.std_strdt, d.std_enddt, d.user_no as leader_no, e.user_id as leader_id, a.gsu_no
+		from apply a, process b, user_ c, std_default d, user_ e, get_std_u f
+		where a.ap_no = b.ap_no and a.user_no = #{user_no} and a.user_no = c.user_no and a.std_no = d.std_no and d.user_no = e.user_no and a.gsu_no = f.gsu_no
+	</select>
+	
+	<select id="selectStudyNoProList" parameterType="int" resultType="mypage.vo.UserStudyNoProInfo">
+		select distinct a.ap_no, a.gsu_no, b.std_name, b.sgbn_name, b.sgdt_name, b.std_strdt, b.std_enddt, b.user_no as leader_no, c.user_id as leader_id, d.user_no, d.user_id
+		from apply a, std_default b, user_ c, user_ d
+		where a.ap_no not in (select ap_no
+                              from process) 
+         	  and a.user_no = #{user_no} and a.std_no = b.std_no and b.user_no = c.user_no and a.user_no = d.user_no
+		order by ap_no asc
+	</select>
+	
+	<delete id="deleteStudyApply" parameterType="int">
+		delete from apply
+		where ap_no = #{ap_no}
+	</delete>
+
+</mapper>

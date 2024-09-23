@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+
+<!-- 회원가입 -->
+<insert id="registerMember" parameterType="memVO">
+<selectKey keyProperty="user_no" resultType="int" order="BEFORE">
+select user_no_seq.nextval  from dual
+</selectKey >
+
+insert into USER_(
+user_no, user_id, user_pw, user_name, user_bir, user_tel, user_zip, user_add1, user_add2,  user_email
+)values(
+
+#{user_no},
+#{user_id},
+#{user_pw},
+#{user_name},
+#{user_bir},
+#{user_tel},
+#{user_zip},
+#{user_add1},
+#{user_add2},
+#{user_email}
+
+)
+</insert>
+
+<insert id="insertSkills" parameterType="SkVO">
+    <selectKey keyProperty="stcd_no" resultType="int" order="BEFORE">
+        select stco_no_seq.nextval from dual
+    </selectKey>
+    
+     insert into STACK_CODE(
+         stcd_no, USER_NO, SGDT_NO
+     ) values (
+         #{stcd_no},
+         #{user_no},
+         (select SGDT_NO from SGBN_DETAIL where SGDT_NAME = #{skillName})
+     )
+</insert>
+
+
+
+
+<!-- Login 로그인한 그 사람 아이디 가져오기 -->
+<select id="loginMember" parameterType="map" resultType="String">
+select user_id
+from user_
+where user_id= #{id}
+and user_pw= #{pass}
+
+
+</select>
+
+
+<!-- ID -->
+<select id="findMember" parameterType="map" resultType="String">
+select user_id
+from user_
+where user_name= #{name}
+and user_bir= #{bir}
+and user_tel= #{tel}
+
+</select>
+
+
+<!-- 멤버 정보 가져오기 -->
+<select id="selectMember" parameterType="int" resultType="memVO">
+select 
+	*
+from user_
+where user_no = #{no} and user_delyn='N'
+</select>
+
+
+<!-- 비번  -->
+<select id="findMemberPw" parameterType="map" resultType="String">
+
+select user_pw
+from user_
+where user_id= #{userid}
+and user_name= #{name}
+and user_bir= #{bir}
+and user_email= #{email}
+
+
+</select>
+
+
+<!-- 회원번호 -->
+<select id="getMemberNo" parameterType="map" resultType="int">
+SELECT COALESCE((SELECT user_no
+                 FROM user_
+                 WHERE user_id = #{id}
+                 AND user_pw = #{pass}), 0) AS user_no
+FROM dual
+
+</select>
+
+
+<!-- 회원정보 수정 -->
+<update id="updateUser" parameterType="memVO">
+update user_
+set user_name = #{user_name},
+	user_bir = #{user_bir},
+	user_tel = #{user_tel},
+	user_zip = #{user_zip},
+	user_add1 = #{user_add1},
+	user_add2 = #{user_add2},
+	user_email = #{user_email}
+where user_no = #{user_no}	
+
+</update>
+
+
+<!-- 회원 비밀번호 확인 -->
+<select id="selectWithPw" parameterType="memVO" resultType="memVO">
+select user_no, user_pw
+from user_
+where user_no = #{user_no} and user_pw = #{user_pw}
+</select>
+
+<!-- 회원 비밀번호 수정 -->
+<update id="updateUserPw" parameterType="memVO">
+update user_
+set user_pw = #{user_pw}
+where user_no = #{user_no}
+</update>
+
+
+
+<select id="joinSkills" resultType="skillsVO">
+
+
+select*from sgbn_detail
+
+
+
+
+</select>
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

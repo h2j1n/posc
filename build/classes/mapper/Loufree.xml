@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="louFreeBoard">
+
+
+
+<resultMap type="vo.LouFreeBoardVO" id="LouBoardList">
+
+	<id column= "FREE_NO" property="free_no"/>
+	<result column="FREE_NO" property="free_no"/>
+	<result column="FREE_TITLE" property="free_title"/>
+    <result column="FREE_CONTENT" property="free_content" jdbcType="CLOB" javaType="java.lang.String"/>
+	<result column="FREE_DATE" property="free_date"/>
+	<result column="FREE_HIT" property="free_hit"/>
+	<result column="USER_NO" property="user_no"/>
+	<result column="USER_ID" property="user_id"/>
+</resultMap>
+
+
+
+
+<select id="BoardList" resultMap="LouBoardList">
+<![CDATA[
+SELECT F.FREE_NO, 
+       F.FREE_TITLE, 
+       F.FREE_CONTENT, 
+       F.FREE_DATE, 
+       F.FREE_HIT, 
+       CASE 
+           WHEN F.USER_NO < 1000 THEN U.USER_ID 
+           ELSE A.ADM_ID 
+       END AS USER_ID,
+       F.ATCH_FILE_ID
+FROM LOU_FREE F
+LEFT JOIN USER_ U ON F.USER_NO = U.USER_NO
+LEFT JOIN ADMIN A ON F.USER_NO = A.ADM_NO
+WHERE F.FREE_DELYN = 'N'
+
+]]>
+</select>
+
+
+
+<insert id="registerBoard" parameterType="LouFreeVO">
+<selectKey order="BEFORE" keyProperty="free_no" resultType="int" >
+select lou_no_seq.nextval from dual
+</selectKey>
+
+
+insert into lou_free(free_no, free_title, free_content, free_date, user_no
+)values(
+#{free_no}, #{free_title},#{free_content},sysdate,#{user_no}
+)
+
+
+</insert>
+
+
+<select id="detailBoard" parameterType="int" resultType="LouFreeVO">
+
+select free_no, free_title, free_content, free_date, user_no ,free_hit
+from lou_free
+where free_no = #{free_no}
+
+
+</select>
+
+
+<update id="updateBoard" parameterType="LouFreeVO">
+
+					update lou_free
+					set 
+					free_title = #{free_title},
+					free_content = #{free_content}
+					where user_no = #{user_no}
+					and free_no=#{free_no}
+
+
+
+
+</update>
+
+
+
+<update id="deleteBoard" parameterType="int">
+		update lou_free
+		set
+		free_delyn = 'y'
+		where free_no =#{free_no}
+</update>
+
+
+<select id="getTotalFrees" resultType="int">
+
+select count(*) from lou_free where free_delyn='N'
+
+</select>
+
+
+
+
+<select id="pageBoardList" parameterType="map" resultType="LouFreeVO">
+<![CDATA[
+
+SELECT *
+FROM (
+    SELECT ROWNUM AS RNUM, A.*,
+           CASE
+               WHEN LENGTH(A.FREE_TITLE) <= 6 THEN A.FREE_TITLE
+               ELSE SUBSTR(A.FREE_TITLE, 1, 6) || '...'
+           END AS SHORT_TITLE
+    FROM (
+        SELECT
+            F.FREE_NO,
+            F.FREE_TITLE,
+            F.FREE_CONTENT,
+            F.FREE_DATE,
+            F.FREE_HIT,
+            CASE 
+                WHEN F.USER_NO < 1000 THEN U.USER_ID 
+                ELSE A.ADM_ID 
+            END AS USER_ID,
+            F.ATCH_FILE_ID
+        FROM LOU_FREE F
+        LEFT JOIN "USER_" U ON F.USER_NO = U.USER_NO
+        LEFT JOIN "ADMIN" A ON F.USER_NO = A.ADM_NO
+        WHERE F.FREE_DELYN = 'N'
+        ORDER BY F.FREE_NO DESC
+    ) A
+)
+WHERE RNUM BETWEEN #{start} AND #{start} + #{pageSize} - 1
+
+
+]]>
+</select>
+
+
+
+<update id="hitPlus" parameterType="int" >
+
+					update lou_free
+					set 
+					free_hit = free_hit+1
+					where free_no = #{no} 
+</update>
+
+
+
+
+<select id="searchList" parameterType="map" resultType="LouFreeVO">
+<![CDATA[
+
+SELECT f.free_no, f.free_title, f.free_date, f.free_hit,
+    CASE
+        WHEN f.user_no < 1000 THEN u.USER_ID
+        ELSE a.ADM_ID
+    END AS user_ID,
+    f.ATCH_FILE_ID  
+FROM lou_free f
+LEFT JOIN USER_ u ON f.USER_NO = u.USER_NO
+LEFT JOIN ADMIN a ON f.USER_NO = a.ADM_NO
+WHERE f.free_delyn = 'N' 
+    AND UPPER(f.free_title) LIKE '%' || UPPER(#{keyword}) || '%'
+ORDER BY f.free_no DESC
+
+
+]]>
+
+
+
+
+</select>
+
+
+
+<!-- 댓글기능 -->
+ 
+	 <!-- 게시글에 대한 댓글 목록 조회 -->
+    <select id="getCommentsByPostNo" parameterType="int" resultType="FrcoVO">
+        <![CDATA[
+		SELECT CP.frco_cont, 
+		       CP.frco_date, 
+		       CP.free_no, 
+		       CP.user_no, 
+		       CP.frco_no,
+		       U.USER_ID
+		FROM comm_free CP
+		LEFT JOIN USER_ U ON U.USER_NO = CP.user_no
+		WHERE CP.free_no = #{freeNo} AND CP.frco_delyn = 'N'
+		ORDER BY CP.frco_no ASC
+		]]>
+		 
+		 
+    </select>
+    
+    
+    <!-- 댓글 삽입 -->
+    <insert id="insertComment" parameterType="FrcoVO" useGeneratedKeys="true">
+    <selectKey keyProperty="frco_no" resultType="int" order="BEFORE">
+			select frco_no_seq.nextval from dual
+		</selectKey>
+        INSERT INTO comm_free (frco_no, frco_cont, frco_depth, frco_date, frco_wrap, frco_delyn, free_no, user_no)
+        VALUES (#{frco_no}, #{frco_cont}, 1, sysdate, 'N', 'N', #{free_no}, #{user_no})
+    </insert>
+    
+    
+	<!-- 댓글 삭제 -->
+	<update id="deleteComment" parameterType="int" >
+		update comm_free 
+		set frco_delyn = 'Y'
+		where frco_no = #{frco_no}
+		
+	</update>
+	
+	
+	<!-- 댓글 select -->
+	<select id="selectcomment" parameterType="int" resultType="FrcoVO">
+
+	select frco_no, frco_cont, frco_delyn, frco_date, free_no, user_no
+	from comm_free
+	where frco_no = #{frco_no}
+	
+	</select>
+	
+	
+	<!-- 댓글 업데이트 -->
+	<update id="updateComment" parameterType="FrcoVO">
+		
+		update comm_free 
+		set frco_cont = #{frco_cont}
+		where frco_no = #{frco_no}
+		
+	</update>
+	
+	<select id="selectBoard" parameterType="int" resultType="LouFreeVO">
+
+	select free_no, free_title, free_content, free_hit, free_date
+	from LOU_FREE
+	where free_no = #{free_no}
+	
+	</select>
+
+
+
+
+
+
+
+
+</mapper>

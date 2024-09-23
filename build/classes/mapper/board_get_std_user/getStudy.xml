@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper  namespace="getStudy">
+
+
+
+	<!-- 스터디 모집글 추가 -->
+	<insert id="insertStudyMemBoard" parameterType="GetStudyUserVO">
+		<selectKey keyProperty="gsu_no" resultType="int" order="BEFORE">
+			select gsu_no_seq.nextval from dual
+		</selectKey>
+		insert into GET_STD_U
+   		 (gsu_no, gsu_gubun, gsu_period, gsu_skills, gsu_memcnt, gsu_end, gsu_title, gsu_content, gsu_start, gsu_hit, gsu_delyn,user_no,gsu_stdname)
+   		 VALUES
+    	( #{gsu_no}, #{gsu_gubun},#{gsu_period},#{gsu_skills},#{gsu_memcnt},#{gsu_end}, #{gsu_title},#{gsu_content}, sysdate, 0,'N', #{user_no},#{gsu_stdname}) 	
+	</insert>
+	
+	<resultMap type="GetStudyListVO" id="getStudyListMap"> <!-- 1 -->
+		<result column="gsu_no" property="gsu_no" />
+		<result column="gsu_title" property="gsu_title" />
+		<result column="gsu_content" property="gsu_content" />
+		<result column="gsu_start" property="gsu_start" />
+		<result column="gsu_hit" property="gsu_hit" />
+		<result column="gsu_delyn" property="gsu_delyn" />
+		<result column="user_no" property="user_no" />
+		<result column="gsu_gubun" property="gsu_gubun" />
+		<result column="gsu_end" property="gsu_end" />
+		<result column="gsu_skills" property="gsu_skills" />
+		<result column="gsu_memcnt" property="gsu_memcnt" />
+		<result column="gsu_period" property="gsu_period" />
+		<result column="gsu_stdname" property="gsu_stdname" />
+	</resultMap>
+
+	<!-- 스터디 모집글 리스트 -->
+	<select id="getStudyList" resultType="GetStudyUserVO">        
+ 		<![CDATA[
+ 		select  *
+		from get_std_u, user_
+		where get_std_u.user_no = user_.user_no
+    		and get_std_u.gsu_delyn = 'N'
+    		and get_std_u.gsu_end >= trunc(sysdate)
+			ORDER by get_std_u.gsu_no asc
+ 		]]>
+	</select>
+
+	<!-- 스터디 모집글 상세페이지 -->
+	<select id="getStudyDetailList" resultType="GetStudyUserVO">
+		select *
+		from GET_STD_U
+		where gsu_no = #{gsu_no}
+	</select>
+
+	<!-- 스터디 테이블 스터디번호-->
+	<select id="getStudyNo" resultType="String">
+		select std_no
+		from study
+		where std_name like #{std_name}
+	</select>
+
+	<!-- 조회수 증가 -->
+	<update id="addHit" parameterType="int">
+		update  GET_STD_U
+		set GSU_HIT = GSU_HIT + 1
+		where  gsu_no = #{gsu_no}
+	</update>
+	
+	<!-- 스터디 모집글 수정 -->
+	<update id="getStudyUpdate" parameterType="GetStudyUserVO">
+		update GET_STD_U
+		set 
+		gsu_gubun		= #{gsu_gubun},
+		gsu_period		= #{gsu_period},
+		gsu_skills		= #{gsu_skills},
+		gsu_memcnt		= #{gsu_memcnt},
+		gsu_end			= #{gsu_end},
+		gsu_title		= #{gsu_title},
+		gsu_content		= #{gsu_content},
+		gsu_stdname		= #{gsu_stdname}
+		where gsu_no 	= #{gsu_no}
+	</update>
+	
+	<!-- 스터디 모집글 삭세 -->
+	<delete id="deleteGetStudy" parameterType="int">
+		delete from GET_STD_U
+		where gsu_no = #{no}
+	</delete>
+	
+	<!-- 해당 스터디원 리스트 -->
+	<select id="getStudyMemberList" resultType="StudyMemberVO" >
+		select *
+		from std_member
+	</select>
+	
+	<!-- 스터디원 신청 -->
+	<insert id="applyMember" parameterType="int">
+		<selectKey keyProperty="ap_no" resultType="int" order="BEFORE">
+			select ap_no_seq.nextval from dual
+		</selectKey>
+			INSERT INTO APPLY
+			(ap_no, ap_date, user_no, gsu_no, std_no)
+			VALUES 
+			(#{ap_no}, sysdate, #{user_no} ,#{gsu_no} ,#{std_no} )
+	</insert>
+	
+	
+	
+	
+</mapper>

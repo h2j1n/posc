@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mainGetNew">
+
+<select id="getNewTotalList1" resultType="mnVO">
+SELECT distinct
+    SD.STD_NO, SD.STD_NAME, SD.STD_STRDT, SD.STD_ENDDT, SD.USER_NO, SD.SGBN_NAME, SD.SGDT_NAME, U.USER_ID
+FROM 
+    STD_DEFAULT SD, STUDY STD, USER_ U
+WHERE 
+    SD.USER_NO = U.USER_NO
+    AND STD.STD_DELYN = 'N'
+ORDER BY 
+    SD.STD_STRDT ASC, SD.STD_ENDDT ASC
+</select>
+
+
+
+<!-- paging -->
+
+<!-- 전체 스터디 리스트 -->
+<select id="getNewTotalList" resultType="int">
+	SELECT COUNT(*)
+	FROM 
+	(
+	SELECT 
+		SD.STD_NO, SD.STD_NAME, SD.STD_STRDT, SD.STD_ENDDT, SD.USER_NO, SD.SGBN_NAME, SD.SGDT_NAME, G.GSU_GUBUN, G.GSU_HIT, U.USER_ID
+		FROM STD_DEFAULT SD, GET_STD_U G, STUDY STD, USER_ U
+		WHERE SD.STD_NAME = G.GSU_STDNAME
+		AND STD.STD_NAME = G.GSU_STDNAME
+		AND G.USER_NO = U.USER_NO
+		AND STD.STD_DELYN = 'N'
+	)
+</select>
+
+<!-- 해당 페이지의 스터디 리스트만 출력 -->
+
+
+<select id="getNewTotalListByPage" parameterType="map" resultType="mnVO">
+<![CDATA[
+SELECT *
+FROM 
+(
+    SELECT
+        ROWNUM AS RNUM, A.*
+	    FROM 
+	    (
+	        SELECT
+	            S.STD_NO, S.STD_NAME, S.STD_STRDT, S.STD_ENDDT, S.USER_NO, SG.SGBN_NAME, U.USER_ID, S.STD_HIT, S.STD_DATE
+	        FROM
+	            STUDY S
+	            INNER JOIN STUDY_GUBUN SG ON S.SGBN_NO = SG.SGBN_NO
+	            INNER JOIN USER_ U ON S.USER_NO = U.USER_NO
+	        WHERE
+	            S.STD_DELYN = 'N'
+	        ORDER BY
+	            S.STD_DATE DESC, -- STD_DATE를 기준으로 내림차순으로 정렬합니다.
+	            S.STD_STRDT ASC, S.STD_ENDDT ASC
+		) A
+)
+WHERE
+    RNUM > #{start} AND RNUM <= #{start} + #{pageSize}
+]]>
+</select>
+
+<select id="getNewProListByPage" parameterType="map" resultType="mnVO">
+<![CDATA[
+SELECT *
+FROM
+(
+    SELECT
+        ROWNUM AS RNUM, A.*
+        FROM
+        (
+            SELECT 
+            SD.STD_NO, SD.STD_NAME, SD.STD_STRDT, SD.STD_ENDDT, SD.USER_NO, SD.SGBN_NAME, SD.SGDT_NAME, G.GSU_GUBUN, G.GSU_HIT, U.USER_ID
+            FROM STD_DEFAULT SD, GET_STD_U G, STUDY STD, USER_ U
+            WHERE SD.STD_NAME = G.GSU_STDNAME
+            AND STD.STD_NAME = G.GSU_STDNAME
+            AND G.USER_NO = U.USER_NO
+            AND G.GSU_GUBUN = 1
+            AND STD.STD_DELYN = 'N'
+            ORDER BY SD.STD_STRDT ASC, SD.STD_ENDDT ASC
+        ) A
+        WHERE
+            ROWNUM <= #{start} + #{pageSize}
+)
+WHERE
+    RNUM > #{start}
+]]>
+</select>
+
+
+</mapper>

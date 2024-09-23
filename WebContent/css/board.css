@@ -1,0 +1,311 @@
+@charset "UTF-8";
+p {
+	margin: 0;
+}
+
+.h1title {
+	text-align: center;
+	margin-top: 200px;
+	margin-bottom: 40px;
+}
+
+
+        
+body {
+	
+	font-family: 'Inter', sans-serif;
+	background-color: #f8f9fa;
+	margin: 0;
+	padding: 0;
+}
+
+
+.white_box {
+	background-color: #fff;
+	margin: 10px auto 20px;
+	padding-top: 20px;
+	width : 60%;
+	padding-bottom: 60px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	border-radius: 40px;
+	width: 60%;
+}
+
+.table_wrapper {
+	margin-top: 60px;
+	text-align: center;
+}
+
+.table_layout {
+	margin: 0 auto;
+	border-collapse: collapse;
+	width: 90%;
+	overflow: hidden;
+}
+
+.table_layout caption {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+}
+
+.table_layout th, .table_layout td {
+	padding: 16px;
+	text-align: center;
+}
+
+.table_layout th {
+	background-color: #f2f2f2;
+	font-weight: bold;
+	border-right: 1px solid #ddd;
+	border-top: none;
+}
+
+.table_layout td {
+	border-top: none;
+	border-bottom: 1px solid #ddd;
+}
+
+.table_layout tr:nth-child(even) {
+	background-color: #fff;
+}
+
+.table_layout tr:hover {
+	background-color: #f0f0f0;
+}
+
+.notice {
+	background-color: #81c408;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-weight: bold;
+	font-size: 0.8em;
+	text-transform: uppercase;
+	color: #ffffff;
+}
+
+.attach img {
+	width: 20px;
+	vertical-align: middle;
+	margin-right: 5px;
+}
+
+thead.table_head {
+	border-radius: 30px 30px 0 0;
+	height: 60px;
+	overflow: hidden;
+	background-color: #f2f2f2;
+}
+
+tbody.table_body tr {
+	height: 80px;
+}
+
+.table_layout td:last-child {
+	border-right: none;
+}
+
+.table_layout tbody tr:last-child td {
+	border-bottom: 1px solid #ddd;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	border-radius: 5px;
+	padding-top: 5px;
+	margin-bottom: 20px;
+	border: none;
+}
+
+.pagination>a, .pagination>span {
+	color: #383838;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 17px;
+	margin: 0 2px 5px;
+	min-width: 20px;
+	padding: 0 10px;
+	height: 40px;
+	text-decoration: none;
+	position: relative;
+	border-radius: 5px;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+.pagination>span {
+	pointer-events: none;
+}
+
+.pagination svg {
+	height: 24px;
+	width: 24px;
+}
+
+.pagination>a.page-active {
+	background: #81c408;
+	color: #fff;
+}
+
+.pagination>a:hover {
+	background: #81c408;
+	color: #fff;
+}
+
+
+.pagination i{
+	color: #383838ad;
+}
+
+/* 글 작성 버튼 */
+.write_button {
+    text-align: right; 
+    margin-top: -50px;
+    margin-right: 410px;
+    margin-bottom: 20px;
+}
+/* 글 작성 버튼 */
+.write_button11 {
+    text-align: right; 
+    margin-top: -50px;
+    margin-right: 480px;
+    margin-bottom: 20px;
+}
+/* 글 작성 버튼 */
+.write_button2 {
+    text-align: right; 
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 470px;
+}
+.post_button{
+    text-align: right;
+    margin-right: 400px;
+	
+}
+
+/* 글 작성 버튼 스타일 */
+.postbtn {
+	font-size: 18px;
+    font-weight: bold;
+	font-family: 'Inter', sans-serif;
+    padding: 10px 20px; 
+    background-color: #81c408;
+    color: white;
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* 글 작성 버튼 스타일 */
+.postbtn2 {
+	font-size: 18px;
+    font-weight: bold;
+	font-family: 'Inter', sans-serif;
+    padding: 10px 20px;
+    background-color: #ff8080; 
+    color: white;
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-weight: bold;
+}
+/* 글 작성 버튼 스타일 */
+.postbtn3 {
+	font-size: 18px;
+        font-weight: bold;
+	font-family: 'Inter', sans-serif;
+    padding: 10px 20px;
+    background-color: #979797; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer;
+    font-weight: bold; 
+}
+
+
+
+/* 글 작성 버튼 호버 효과 */
+.postbtn:hover {
+    background-color: #008000; 
+}
+
+.postbtn2:hover {
+    background-color: #ff0000; 
+}
+
+.postbtn3:hover {
+    background-color: #000000;
+}
+
+
+
+/* 검색창과 버튼을 같은 줄에 배치 */
+.action-bar {
+    
+    justify-content: space-between; /* 요소들을 양 끝으로 배치 */
+    align-items: center; /* 요소들의 세로 중앙 정렬 */
+/*     margin: 10px; 상하 여백 및 좌우 여백 */
+    margin-left: -10px;
+}
+
+.search-box {
+    display: inline-block;
+    position: relative;
+    width: 300px;
+    margin-left: 400px;
+}
+
+.search-box input[type="text"] {
+    width: 100%;
+    padding: 8px 15px;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    transition: all 0.3s ease;
+	margin-bottom: 8px;
+}
+
+.search-box input[type="text"]:focus {
+    border-color: #5cb85c;
+    box-shadow: 0 0 10px rgba(92, 184, 92, 0.2);
+}
+
+.search-box button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    color: #888;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    transition: color 0.3s ease;
+}
+
+.search-box button:hover {
+    color: #5cb85c;
+}
+
+.search-box button:focus {
+    color: #5cb85c;
+}
+
+.search-box button i {
+    font-size: 16px;
+}
+    
+    

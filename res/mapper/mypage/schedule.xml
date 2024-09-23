@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="schedule">
+
+<select id="selectScheduleList" parameterType="int" resultType="schduleVO">
+	select scd_no, scd_start, scd_end, scd_title, scd_cont
+	from schedule
+	where user_no = #{no}
+</select>
+
+<insert id="insertSchedule" parameterType="schduleVO">
+	insert into schedule(scd_no, scd_start, scd_end, scd_title, user_no)
+	values(scd_no_seq.nextval, to_date(#{scd_start},'YYYY/MM/DD HH24:MI'), to_date(#{scd_end},'YYYY/MM/DD HH24:MI'),#{scd_title}, #{user_no})
+</insert>
+
+<select id="scheduleDetail" parameterType="hashMap" resultType="schduleVO">
+	
+	select scd_no, scd_start, scd_end, scd_title
+	from schedule
+	where user_no = to_number(#{user_no}) 
+	and to_date(#{date}) between substr(scd_start,0,10) and substr(scd_end,0,10)
+	order by scd_start
+	 
+</select>
+
+<update id="updateSchedule" parameterType="schduleVO">
+
+	update schedule
+	set scd_start = to_date(#{scd_start}, 'YYYY/MM/DD HH24:MI'), scd_end = to_date(#{scd_end}, 'YYYY/MM/DD HH24:MI'), scd_title = #{scd_title}
+	where scd_no = #{scd_no}
+	
+</update>
+
+<delete id="deleteSchedule" parameterType="String">
+	delete from schedule
+	where scd_no = to_number(#{scd_no})
+</delete>
+
+
+</mapper>

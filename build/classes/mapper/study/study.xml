@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stdDetail">
+
+
+<resultMap type="study.vo.StudyVO" id="STD_NO">
+
+	<id column= "STD_NO" property="std_no"/>
+	<result column="STD_NAME" property="std_name"/>
+    <result column="STD_STRDT" property="std_strdt"/>
+	<result column="STD_ENDDT" property="std_enddt"/>
+	<result column="STD_DELYN" property="std_delyn"/>
+	<result column="STD_CONT" property="std_cont"/>
+	<result column="USER_INFO" property="user_info"/>
+    
+</resultMap>
+
+<update id="plusHit" parameterType="int">
+	update  study
+	set std_hit = std_hit + 1
+	where std_no = #{std_no}
+</update>
+
+<select id="getStudyDetail" resultType="stdVO">
+SELECT 
+    C.STD_NO, 
+    A.STD_NAME, 
+    A.STD_STRDT, 
+    A.STD_ENDDT, 
+    A.SGBN_NO, 
+    A.STD_DELYN, 
+    A.STD_CONT, 
+    A.STD_DATE, 
+    LISTAGG(B.USER_ID, ' ') WITHIN GROUP (ORDER BY C.USER_NO) AS USER_INFO 
+FROM 
+    STUDY A 
+JOIN 
+    STD_MEMBER C ON A.STD_NO = C.STD_NO 
+JOIN 
+    USER_ B ON C.USER_NO = B.USER_NO 
+WHERE 
+    A.STD_NO = #{no}
+    AND A.STD_DELYN = 'N' 
+GROUP BY 
+    C.STD_NO, 
+    A.STD_NAME, 
+    A.STD_STRDT, 
+    A.STD_ENDDT, 
+    A.SGBN_NO, 
+    A.STD_DELYN, 
+    A.STD_CONT, 
+    A.STD_DATE
+</select>
+
+
+
+
+    <select id="getStudyLeader" resultType="stdLeaderVO">
+        SELECT U.USER_ID
+        FROM STUDY S
+        JOIN USER_ U ON U.USER_NO = S.USER_NO
+        WHERE S.STD_NO = #{no}
+    </select>
+
+
+
+<select id="getUserID" resultType="String">
+
+SELECT USER_ID
+FROM USER_
+WHERE USER_NO = #{no}
+AND USER_DELYN = 'N'
+	
+</select>
+
+<update id="deleteStudyDetail" parameterType="int">
+update study 
+set std_delyn = 'Y'
+where std_no = #{no}
+</update>
+
+<update id="updateStudyDetail" parameterType="stdVO">
+update study
+set
+std_name = #{std_name},
+std_strdt = #{std_strdt},
+std_enddt = #{std_enddt},
+sgbn_no = #{sgbn_no},
+std_cont = #{std_cont}
+where std_no = #{std_no}
+</update>
+
+<insert id="insertStudy" parameterType="study.vo.PlanStudyVO">
+insert into study
+(
+std_no, std_name, std_strdt, std_enddt, user_no, sgbn_no, std_cont, std_date
+)
+values
+(
+(SELECT NVL(MAX(std_no), 0) + 1 FROM study),
+#{std_name},
+#{std_strdt},
+#{std_enddt},
+#{user_no},
+#{sgbn_no},
+#{std_cont},
+sysdate
+)
+</insert>
+
+<insert id="insertStudyMember" parameterType="study.vo.PlanStudyVO">
+insert into std_member
+(
+user_no, std_no
+)
+values
+(
+#{user_no}, #{std_no}
+)
+</insert>
+
+<select id="getMaxNo" resultType="int">
+SELECT MAX(std_no) FROM study
+</select>
+
+<update id="updateGetStudyName" parameterType="String">
+update get_std_u
+set 
+gsu_stdname = #{gsu_stdname}
+</update>
+
+</mapper>

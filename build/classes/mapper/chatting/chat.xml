@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="chat">
+
+<insert id="insertChat" parameterType="chatVO">
+<selectKey keyProperty="chat_d_no" resultType="int" order="BEFORE">
+select chat_d_no_seq.nextval from dual
+</selectKey >
+
+insert into chat_detail(
+chat_d_no, chat_gubun, chat_cont, chat_date, chat_no, user_no
+)values(
+
+#{chat_d_no},
+#{chat_gubun},
+#{chat_cont},
+#{chat_date},
+#{chat_no},
+#{user_no}
+
+
+)
+
+</insert>
+
+<select id="loadChat" parameterType="chatVO">
+
+</select>
+
+
+
+
+</mapper>

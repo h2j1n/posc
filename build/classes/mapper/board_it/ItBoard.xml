@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="itBoard">
+
+
+
+<insert id="resigterBoard" parameterType="ItVos">
+
+<selectKey keyProperty="it_no" resultType="int" order="BEFORE">
+select IT_NO_SEQ.nextval from dual
+</selectKey >
+INSERT INTO LOU_IT(
+IT_NO, IT_TITLE, IT_CONTENT, IT_SDATE, IT_EDATE, IT_GU, IT_TYPE, IT_LINK, 
+IT_ENDDATE, IT_ORGAN, IT_PLACE, IT_MAINIMG,  USER_NO,  IT_WRDATE
+
+)VALUES(
+#{it_no},
+#{it_title},
+#{it_content},
+#{it_sdate},
+#{it_edate},
+#{it_gu},
+#{it_type},
+#{it_link},
+#{it_enddate},
+#{it_organ},
+#{it_place},
+#{it_mainimg},
+#{user_no},
+SYSDATE
+)
+
+
+</insert>
+
+<select id="getListBoard" resultType="ItVos">
+
+
+
+select * from lou_it where it_permit = 'Y'
+AND it_delyn = 'N'
+
+
+
+</select>
+
+
+<select id="detailBoard" parameterType="int" resultType="ItVos">
+
+
+select * from lou_it where it_no=#{it_no}
+
+
+
+
+</select>
+<update id="updateBoard">
+
+	update lou_it
+	set
+
+	IT_TITLE = #{it_title},
+	IT_CONTENT = #{it_content},
+	IT_SDATE = #{it_sdate},
+	IT_EDATE = #{it_edate},
+	IT_GU = #{it_gu},
+	IT_TYPE = #{it_type},
+	IT_LINK = #{it_link},
+	IT_ENDDATE = #{it_enddate},
+	IT_ORGAN =  #{it_organ},
+	IT_PLACE = #{it_place},
+	IT_MAINIMG = #{it_mainimg}
+	WHERE IT_NO = #{it_no}
+	
+
+
+
+
+
+</update>
+
+
+<update id="deleteBoard" parameterType="int">
+
+update lou_it
+set it_delyn= 'Y'
+where it_no = #{it_no}
+
+
+
+
+</update>
+
+
+
+
+
+
+</mapper>

@@ -1,4 +1,4 @@
-# 👥 [POSC]
+# 📚 [POSC]
 <h3 align="center"><i>"Project Study Cooperation"</i></h3>
 
 

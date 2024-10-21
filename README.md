@@ -3,7 +3,7 @@
 
 
 
-## 👨‍👨‍👦‍👦 TEAM CONNECT
+## 👨‍👨‍👦‍👦 TEAM CMD
 <br>
 <table>
   <tr height="140px">
